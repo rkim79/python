@@ -14,13 +14,15 @@ values = {
 	'Ace': 11
 }
 
-# QUESTION: can I use a list or a tuple of keys of the dictionary, instead of the rank variable?
-# 대신 딕셔너리 키로 만든 리스트 를 사용할 수 있지 않을까?
+'''
+QUESTION(not solved)
+can I use a list or a tuple of keys of the dictionary, instead of the rank variable?
+대신 딕셔너리 키로 만든 리스트 를 사용할 수 있지 않을까?
+'''
 
 playing = True
 
 class Card:
-	"""Attributes for Each Card:"""
 	def __init__(self, suit, rank):
 		self.suit = suit
 		self.rank = rank
@@ -59,14 +61,16 @@ class Hand:
 			self.aces += 1
 
 	def adjust_for_ace(self):
-		if self.total > 21 and self.aces: # MISTAKE: use while not if, because there might be more than 2 aces
+		while self.total > 21 and self.aces:
+		#if self.total > 21 and self.aces:
+		# MISTAKE(corrected): use while not if, because there might be more than 2 aces
 			self.total -= 10
 			self.aces -= 1
 
-#TODO: implement defalut value instead of hard coding
+#TODO(done): implement defalut value instead of hard coding
 class Chips:
-	def __init__(self):
-		self.total = 100
+	def __init__(self, amount=100):
+		self.total = amount
 		self.bet = 0
 
 	def win_bet(self):
@@ -101,18 +105,19 @@ def hit_or_stand(deck):
 def show_some(player_hand, dealer_hand):
 	print('\nDealer\'s Hand:')
 	print('<card hidden>')
-	print('\n'.join([str(card) for card in dealer_hand.cards[1:]]))
+	#print('\n'.join([str(card) for card in dealer_hand.cards[1:]]))
+	print(delear_hand.cards[1])
 
-	print('\nPlayer\'s Hand:')
-	print('\n'.join([str(card) for card in player_hand.cards]))
+	print('\nPlayer\'s Hand:', *player_hand.cards, sep = '\n')
+	#print('\n'.join([str(card) for card in player_hand.cards]))
 
 def show_all(player_hand, dealer_hand):
-	print('\nDealer\'s Hand:')
-	print('\n'.join([str(card) for card in dealer_hand.cards]))
+	print('\nDealer\'s Hand:', *dealer_hand.cards, sep = '\n')
+	#print('\n'.join([str(card) for card in dealer_hand.cards]))
 	print(f'Dealer\'s Total = {dealer_hand.total}')
 
-	print('\nPlayer\'s Hand:')
-	print('\n'.join([str(card) for card in player_hand.cards]))
+	print('\nPlayer\'s Hand:', *player_hand.cards, sep = '\n')
+	#print('\n'.join([str(card) for card in player_hand.cards]))
 	print(f'Player\'s Total = {player_hand.total}')
 
 def take_bet(chips):
@@ -123,12 +128,14 @@ def take_bet(chips):
 
 		except ValueError:
 			print('You must input a number, try again!')
-			continue
+			#continue
+			# Still not sure about the flow! But this seems redundant.
 
 		else:
 			if chips.bet > chips.total:
 				print(f'You cannot bet more than {chips.total}, try again!')
-				continue
+				#continue
+				# Still not sure about the flow! but it seems redundant.
 
 			else:
 				break
