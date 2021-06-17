@@ -39,7 +39,14 @@ class Deck:
 			for rank in ranks:
 				self.cards.append(Card(suit, rank))
 
-# missing __str__ method impelementation
+# TODO(done): missing __str__ method impelementation
+	def __str__(self):
+		card_list = ''
+		for card in self.cards:
+			card_list = card_list + card.__str__()
+			# card_list += '\n ' + card.__str__()
+			# Still it's confusing that a tuple is immutable. Though I know concatenation is allowed.
+		return card_list
 
 	def shuffle(self):
 		random.shuffle(self.cards)
@@ -67,7 +74,7 @@ class Hand:
 			self.total -= 10
 			self.aces -= 1
 
-#TODO(done): implement defalut value instead of hard coding
+# TODO(done): implement defalut value instead of hard coding
 class Chips:
 	def __init__(self, amount=100):
 		self.total = amount
