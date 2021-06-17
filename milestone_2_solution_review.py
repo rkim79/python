@@ -106,7 +106,7 @@ def show_some(player_hand, dealer_hand):
 	print('\nDealer\'s Hand:')
 	print('<card hidden>')
 	#print('\n'.join([str(card) for card in dealer_hand.cards[1:]]))
-	print(delear_hand.cards[1])
+	print(dealer_hand.cards[1])
 
 	print('\nPlayer\'s Hand:', *player_hand.cards, sep = '\n')
 	#print('\n'.join([str(card) for card in player_hand.cards]))
