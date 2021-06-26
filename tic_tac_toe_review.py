@@ -90,7 +90,7 @@ def game(board, player, turn):
     make_move(board, player, turn)
 
     board.display_board()
-    print(board.full_board_check())
+#    print(board.full_board_check())
 
     if board.win_check(player) == player:
         print(f'{turn} has won the game!')
