@@ -79,13 +79,13 @@ while not exit:
         player1 = []
         player2 = []
 
-        if player1_hand.__len__() > 5:
+        if player1_hand.__len__() > war_rule:
             player1.append(player1_hand.draw_a_card())
         else:
             print('Player 2 has won the game! Player 1 have not enough cards.')
             exit = True
             break
-        if player2_hand.__len__() > 5:
+        if player2_hand.__len__() > war_rule:
             player2.append(player2_hand.draw_a_card())
         else:
             print('Player 1 has won the game! Player 2 have not enough cards.')
@@ -108,12 +108,12 @@ while not exit:
             while True:
                 print(f'Round {game_round}: War!\t\t  ', end='')
                 game_round += 1
-                if len(player1_hand) < 5:
+                if len(player1_hand) < war_rule:
                     print('Player 2 has won the game! Player 1 have not enough cards.')
                     exit = True
                     game_on = False
                     break
-                elif len(player2_hand) < 5:
+                elif len(player2_hand) < war_rule:
                     print('Player 2 has won the game! Player 1 have not enough cards.')
                     exit = True
                     game_on = False
