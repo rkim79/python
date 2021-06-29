@@ -46,93 +46,83 @@ class Hand:
         return len(self.cards)
 
     def add_cards(self, card):
-        self.cards.extend(card)
+        if type(card) == type([]):  # type(self.card)?
+            self.cards.extend(card)
+        else:
+            self.cards.append(card)
 
     def draw_a_card(self):
-        return self.cards.pop()
+        return self.cards.pop(0) # in FIFO ways
 
 # game logic
 
 war_rule = 5
 game_on = True
 at_war = False
-exit = False
 
-while not exit:
-    print('Welcome to the War Game!')
+print('Welcome to the War Game!')
 
-    # initialize
-    game_deck = Deck()
-    game_deck.shuffle_cards()
-    game_round = 1
+# initialize
+game_deck = Deck()
+game_deck.shuffle_cards()
+game_round = 0
 
-    player1_hand = Hand()
-    player2_hand = Hand()
+player1_hand = Hand()
+player2_hand = Hand()
 
-    for i in range(26):
-        player1_hand.cards.append(game_deck.deal())
-        player2_hand.cards.append(game_deck.deal())
+for i in range(26):
+    player1_hand.add_cards(game_deck.deal())
+    player2_hand.add_cards(game_deck.deal())
 
-    while game_on:
+while game_on:
 #        print(f'Round {game_round}: ', end='')
+    game_round += 1
 
-        player1 = []
-        player2 = []
+    player1 = []
+    player2 = []
 
-        if player1_hand.__len__() > war_rule:
-            player1.append(player1_hand.draw_a_card())
-        else:
-            print('Player 2 has won the game! Player 1 have not enough cards.')
-            exit = True
-            break
-        if player2_hand.__len__() > war_rule:
-            player2.append(player2_hand.draw_a_card())
-        else:
-            print('Player 1 has won the game! Player 2 have not enough cards.')
-            exit = True
-            break
+    if player1_hand.__len__() == 0:
+        print('\nPlayer 2 has won! Player1 is out of cards...')
+        break
+    else:
+        player1.append(player1_hand.draw_a_card())
 
+    if player2_hand.__len__() == 0:
+        print('\nPlayer 1 has won! Player2 is out of card...')
+        break
+    else:
+        player2.append(player2_hand.draw_a_card())
+
+    at_war = True
+
+    print(f'Round {game_round:{3}}: ', end='')
+
+    while at_war:
         if values[player1[-1].rank] > values[player2[-1].rank]:
             player1_hand.add_cards(player1 + player2)
-            print(f'Round {game_round}: Player 1 has won.', end='') 
-            print(f'\t Cards Letf: {len(player1_hand)} vs {len(player2_hand)}')
-            game_round += 1
-            continue
+            print(f'Player 1 has won.', end='') 
+            print(f'\t Cards Left: {len(player1_hand)} vs {len(player2_hand)}')
+            at_war = False
+
         elif values[player1[-1].rank] < values[player2[-1].rank]:
             player2_hand.add_cards(player1 + player2)
-            print(f'Round {game_round}: Player 2 has won.', end='')
+            print(f'Player 2 has won.', end='')
             print(f'\t Cards Left: {len(player1_hand)} vs {len(player2_hand)}')
-            game_round += 1
-            continue
-        else:
-            while True:
-                print(f'Round {game_round}: War!\t\t  ', end='')
-                game_round += 1
-                if len(player1_hand) < war_rule:
-                    print('Player 2 has won the game! Player 1 have not enough cards.')
-                    exit = True
-                    game_on = False
-                    break
-                elif len(player2_hand) < war_rule:
-                    print('Player 2 has won the game! Player 1 have not enough cards.')
-                    exit = True
-                    game_on = False
-                    break
+            at_war = False
 
+        else:
+            print('{0:17}\t'.format('War!')) # still not accustomed to string formatting...
+            if len(player1_hand) < war_rule:
+                print('\nPlayer 2 has won the game! Player 1 have not enough cards for war...')
+                game_on = False
+                break
+            elif len(player2_hand) < war_rule:
+                print('\nPlayer 1 has won the game! Player 2 have not enough cards for war...')
+                game_on = False
+                break
+
+            else:
                 for i in range(war_rule):
                     player1.append(player1_hand.draw_a_card())
                     player2.append(player2_hand.draw_a_card())
-
-                if values[player1[-1].rank] > values[player2[-1].rank]:
-                    player1_hand.add_cards(player1 + player2)
-                    print(f'\tCards Left: {len(player1_hand)} vs {len(player2_hand)}')
-                    break
-                elif values[player1[-1].rank] < values[player2[-1].rank]:
-                    player2_hand.add_cards(player1 + player2)
-                    print(f'\tCards Left: {len(player1_hand)} vs {len(player2_hand)}')
-                    break
-                else:
-                    print(f'\tCards Left: {len(player1_hand)} vs {len(player2_hand)}')
-                    continue
-
 # This took a long time to finish. The codes look inefficient.
